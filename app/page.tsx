@@ -1,90 +1,46 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from './page.module.css'
+'use client'
 
-const inter = Inter({ subsets: ['latin'] })
+import {useState, useRef} from 'react';
+import Form from './components/form/form';
+import Subs from './components/subs/Subs';
+
+import {Sub} from './types'
+
+
+interface AppState {
+  subs: Sub[]
+  newSubsNumber: number
+}
 
 export default function Home() {
+
+  const [subs , setSubs] = useState<AppState["subs"]>([
+    {
+    nick: 'dapelu',
+    subMonths: 3,
+    avatar: 'https://i.pravatar.cc/150?u=dapelu',
+    description: 'Dapelu hace de moderador a veces'
+    },
+    {
+    nick: 'sergio_serrano',
+    subMonths: 7,
+    avatar: 'https://i.pravatar.cc/150?u=sergio_serrano',
+    description: 'Sergio de moderador a veces'
+    },
+  ]
+  )
+  const divRef = useRef<HTMLDivElement>(null)
+
+  const handleNewSub = (newSub: Sub):void =>{
+    setSubs(subs => [... subs , newSub])
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+    <main>
+      <h1 className='text-center p-10 text-xl text-orange-300'>Aplicación de subscripción! TailWindCSS , DaisyUI , Next13 , Typescript5</h1>
+      <div ref={divRef}>
+        <Subs subs={subs}/>
+        <Form onNewSub={handleNewSub}/>
       </div>
     </main>
   )
